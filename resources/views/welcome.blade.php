@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Ongaku - Music Broadcasted</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -62,6 +62,14 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .footer {
+                position: absolute;
+                text-align: center;
+                bottom:0px;
+                width:100%;
+                height:50px;
+            }
         </style>
     </head>
     <body>
@@ -79,16 +87,18 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Ongaku - Music Broadcasted
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="#">Coming Soon</a>
                 </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="links">
+                <a href="http://wheatley.it">Developer</a>
             </div>
         </div>
     </body>
