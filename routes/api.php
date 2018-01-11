@@ -13,8 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['prefix' => 'auth'], function () {
-   Route::post('login', 'Auth\\LoginController@login');
+Route::group(['prefix' => '/auth', 'namespace' => 'Auth'], function () {
+   Route::post('/login', 'LoginController@login');
+});
+
+Route::get('/', function () {
+   dd('test');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
