@@ -17,10 +17,14 @@ Route::group(['prefix' => '/auth', 'namespace' => 'Auth'], function () {
    Route::post('/login', 'LoginController@login');
 });
 
-Route::get('/', function () {
-   dd('test');
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::group(['prefix' => '/timeline', 'namespace' => 'Timeline'], function () {
+        Route::get('/', 'TimelineController@getTimeline');
+    });
 });
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
