@@ -23,7 +23,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     });
 
     Route::group(['prefix' => '/timeline', 'namespace' => 'Timeline'], function () {
-        Route::get('/', 'TimelineController@getTimeline');
+        Route::get('/', 'TimelineController@get');
+    });
+
+    Route::group(['prefix' => '/posts', 'namespace' => 'Posts'], function () {
+        Route::post('/', 'PostController@create');
     });
 });
 

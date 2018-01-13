@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserRelationshipTypes extends Model
+class UserRelationshipType extends Model
 {
     public $timestamps = false;
 }

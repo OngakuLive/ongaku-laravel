@@ -9,6 +9,9 @@
 namespace App\Http\Controllers;
 
 
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+
 class APIInterface extends Controller
 {
     protected function APIResponse($success = true, $error = null, $data = null, $status = null) {
@@ -26,5 +29,14 @@ class APIInterface extends Controller
             'error' => $error,
             'data' => $data
         ], !$status ? 500 : $status)->setStatusCode($status);
+    }
+
+    protected function validateRequest($rules, Request $request) {
+        try {
+            // Validate inputs
+            $request->validate($rules);
+        } catch (ValidationException $ex) {
+            return $this->APIResponse(false, array_values($ex->errors())[0][0], null, 422);
+        }
     }
 }
