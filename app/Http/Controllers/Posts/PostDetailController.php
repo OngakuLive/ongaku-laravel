@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Posts;
 use App\Http\Controllers\APIInterface;
 use App\Http\Requests\StoreComment;
 use App\Models\Comment;
+use App\Models\Like;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,5 +34,17 @@ class PostDetailController extends APIInterface
         ])));
 
         return $this->APIResponse(true, null, $comment->id, 201);
+    }
+
+    public function like(Post $post) {
+        $existingLike = Like::where('likeable_id', $post->id)->where('likeable_type', 'App\\Models\\Post')->where('created_by_id', Auth::id())->first();
+
+        if (isset($existingLike)) {
+            $existingLike->delete();
+            return $this->APIResponse(true);
+        }
+
+        $like = $post->likes()->create(['created_by_id' => Auth::id()]);
+        return $this->APIResponse(true);
     }
 }

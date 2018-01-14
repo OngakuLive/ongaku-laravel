@@ -29,11 +29,14 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => '/posts', 'namespace' => 'Posts'], function () {
         Route::post('/', 'PostController@create');
 //        Route::get('/{post}', 'PostDetailController@forId');
+
+        Route::put('/{post}/like', 'PostDetailController@like');
         Route::post('/{post}/comments', 'PostDetailController@createComment');
     });
 
     Route::group(['prefix' => '/comments', 'namespace' => 'Comments'], function () {
         Route::post('/{comment}/child-comments', 'CommentDetailController@replyToComment');
+        Route::put('/{comment}/like', 'CommentDetailController@like');
 
     });
 });

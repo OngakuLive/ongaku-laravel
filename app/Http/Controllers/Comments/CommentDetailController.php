@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Comments;
 use App\Http\Controllers\APIInterface;
 use App\Http\Requests\StoreComment;
 use App\Models\Comment;
+use App\Models\Like;
 use Illuminate\Support\Facades\Auth;
 
 class CommentDetailController extends APIInterface
@@ -23,5 +24,17 @@ class CommentDetailController extends APIInterface
         ])));
 
         return $this->APIResponse(true, null, $comment->id, 201);
+    }
+
+    public function like(Comment $comment) {
+        $existingLike = Like::where('likeable_id', $comment->id)->where('likeable_type', 'App\\Models\\Comment')->where('created_by_id', Auth::id())->first();
+
+        if (isset($existingLike)) {
+            $existingLike->delete();
+            return $this->APIResponse(true);
+        }
+
+        $like = $comment->likes()->create(['created_by_id' => Auth::id()]);
+        return $this->APIResponse(true);
     }
 }
