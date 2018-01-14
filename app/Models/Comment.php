@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Models\CommentLike;
 use App\Models\Like;
@@ -32,5 +32,9 @@ class Comment extends Model
 
     public function created_by() {
         return $this->belongsTo(User::class);
+    }
+
+    public function child_comments() {
+        return $this->hasMany(Comment::class, 'parent_comment_id');
     }
 }

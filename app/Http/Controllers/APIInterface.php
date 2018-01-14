@@ -30,13 +30,4 @@ class APIInterface extends Controller
             'data' => $data
         ], !$status ? 500 : $status)->setStatusCode($status);
     }
-
-    protected function validateRequest($rules, Request $request) {
-        try {
-            // Validate inputs
-            $request->validate($rules);
-        } catch (ValidationException $ex) {
-            return $this->APIResponse(false, array_values($ex->errors())[0][0], null, 422);
-        }
-    }
 }
