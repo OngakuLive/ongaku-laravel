@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => '/auth', 'namespace' => 'Auth'], function () {
    Route::post('/login', 'LoginController@login');
+   Route::post('/pre-register', 'LoginController@preregister');
 });
 
 Route::group(['middleware' => 'auth:api'], function () {

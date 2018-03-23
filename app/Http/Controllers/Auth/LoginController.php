@@ -4,9 +4,16 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\APIInterface;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Login;
+use App\Http\Requests\Preregister;
+use App\Mail\Preregistration;
+use App\Models\User;
+use http\Exception;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends APIInterface
@@ -41,17 +48,7 @@ class LoginController extends APIInterface
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request) {
-        try {
-            // Validate inputs
-            $request->validate([
-                'login' => 'required|string',
-                'password' => 'required|string',
-            ]);
-        } catch (ValidationException $ex) {
-            return $this->APIResponse(false, array_values($ex->errors())[0][0], null, 422);
-        }
-
+    public function login(Login $request) {
         // get some credentials
         $field = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         $request->merge([$field => $request->input('login')]);
@@ -64,5 +61,12 @@ class LoginController extends APIInterface
         }
 
         return $this->APIResponse(false, "INVALID_CREDENTIALS", null, 401);
+    }
+
+    public function preregister(Preregister $request) {
+        $user = User::create($request->all());
+
+        Mail::to($user)->send(new Preregistration($user));
+        return $this->APIResponse(true);
     }
 }
