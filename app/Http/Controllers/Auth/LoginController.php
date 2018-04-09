@@ -56,7 +56,9 @@ class LoginController extends APIInterface
         $credentials = $request->only(['email', 'password', 'username']);
 
         if (Auth::attempt($credentials)) {
-            $token = Auth::issue();
+            $claims = $this->getClaims(Auth::user());
+
+            $token = Auth::issue($claims);
             return $this->APIResponse(true, null, $token, 200);
         }
 
@@ -68,5 +70,11 @@ class LoginController extends APIInterface
 
         Mail::to($user)->send(new Preregistration($user));
         return $this->APIResponse(true);
+    }
+
+    private function getClaims(User $user) {
+        return [
+            'user' => $user->toArray()
+        ];
     }
 }
